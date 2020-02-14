@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +41,7 @@ namespace Samhammer.Options.Test
             var value = section?.GetValue<string>("Password");
 
             section.Should().NotBeNull();
-            value.Should().BeEquivalentTo("test");
+            value.Should().BeEquivalentTo("hallo");
         }
 
         [Fact]
