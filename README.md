@@ -4,35 +4,40 @@
 
 #### How to add this to your project:
 - reference this package to your project: https://www.nuget.org/packages/Samhammer.Options/
-- add own Options -> the name has to be the same as in the appsettings
-- set [Options] attribute in your Options
+- call ResolveOptions on the IServiceCollection
+
+```csharp
+services.ResolveOptions();
+```
+
+### How to register options ##
+- add [Options] attribute to your Options class
+- by default options are loaded from appsettings section with same name as the class
 
 ```csharp
 [Options]
-public class ExampleOptions{}
-```
-- add an OptionsBuilder and call ResolveOptions
-
-```csharp
-public class OptionsBuilder
-    {
-        public static void Resolve(WebHostBuilderContext builder, IServiceCollection services)
-        {
-            services.ResolveOptions();
-            services.PostConfigure<ExamplebOptions>(options => PostConfigureMongo(options, builder.HostingEnvironment));
-        }
-        
-        private static void PostConfigureMongo(MongoDbOptions options, IHostingEnvironment environment)
-        {
-            options.Example = options.Example.Replace("{environment}", environment.EnvironmentName.ToLower());
-        }
+public class ExampleOptions{
+    public string ApiKey { get; set; }
+    public string ApiUrl { get; set; }
 }
 ```
 
-- your options must have the same name as it's called in appsettings
+appsettings.json
+```json
+"ExampleOptions": {
+  "ApiKey": "1234",
+  "ApiUrl": "http://api.my.de"
+}
+```
 
-#### How to register a class as service
-- add Inject attribute to the class
+### How to register options loaded from other section ##
+TODO
+
+### How to register options loaded from root ##
+TODO
+
+### How to register named options ##
+TODO
 
 ## Contribute
 
