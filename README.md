@@ -17,6 +17,23 @@ services.ResolveOptions();
 ```csharp
 [Options]
 public class ExampleOptions{
+    public string MyKey { get; set; }
+}
+```
+
+appsettings.json
+```json
+"ExampleOptions": {
+  "MyKey": "1234"
+}
+```
+
+### How to register options loaded from other section ##
+It might be that the section name is not the same as your class name.
+
+```csharp
+[Options("Test")]
+public class ExampleOptions{
     public string ApiKey { get; set; }
     public string ApiUrl { get; set; }
 }
@@ -24,20 +41,57 @@ public class ExampleOptions{
 
 appsettings.json
 ```json
-"ExampleOptions": {
+"Test": {
   "ApiKey": "1234",
   "ApiUrl": "http://api.my.de"
 }
 ```
 
-### How to register options loaded from other section ##
-TODO
-
 ### How to register options loaded from root ##
-TODO
+Some options may be defined in the root of appsettings and not inside a section.
+
+```csharp
+[Options(true)]
+public class RootOptions {
+    public string RootUrl { get; set; }
+}
+```
+
+appsettings.json
+```json
+"RootUrl": "http://api.my.de"
+```
 
 ### How to register named options ##
-TODO
+It is possible to load multiple options of the same type, but with different name.
+
+```csharp
+public IOptionsSnapshot<ApiOptions> ApiOptions { get; set; }
+    
+var apiOptions1 = ApiOptions.Get("api1");
+var apiOptions2 = ApiOptions.Get("api2");
+```
+
+```csharp
+[Option("api1", IocName = "api1")]
+[Option("api2", IocName = "api2")]
+public class ApiOptions
+{
+    public string ApiKey { get; set; }
+}
+```
+appsettings.json
+```json
+"api1": {
+  "ApiKey": "1234",
+  "ApiUrl": "http://api.my.de"
+}
+
+"api2": {
+  "ApiKey": "6789",
+  "ApiUrl": "http://api2.my.de"
+}
+```
 
 ## Contribute
 
