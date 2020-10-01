@@ -6,10 +6,10 @@
 
 #### How to add this to your project:
 - reference this package to your project: https://www.nuget.org/packages/Samhammer.Options/
-- call ResolveOptions on the IServiceCollection
+- call ResolveOptions on the IServiceCollection with IConfiguration container
 
 ```csharp
-services.ResolveOptions();
+services.ResolveOptions(Configuration);
 ```
 
 ### How to register options ##
@@ -108,12 +108,12 @@ This will require that you provide an ILoggerFactory from Microsoft.Extensions.L
 ###### Sample with microsoft console logger.
 ```csharp
 var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-services.ResolveDependencies(options => options.SetLogging(loggerFactory));
+services.ResolveOptions(Configuration, options => options.SetLogging(loggerFactory));
 ```
 
 ###### Sample with serilog logger. (you need to setup serilog before)
 ```csharp
-services.ResolveDependencies(options => options.SetLogging(new SerilogLoggerFactory()));
+services.ResolveOptions(Configuration, options => options.SetLogging(new SerilogLoggerFactory()));
 ```
 
 #### How to change assemly resolving strategy?
@@ -121,7 +121,7 @@ By default the project will only resolve types of project assemblies, but not on
 But you can replace the default strategy with your own implementation.
 
 ```csharp
-services.ResolveDependencies(options => options.SetStrategy(new MyAssemblyResolvingStrategy()));
+services.ResolveOptions(Configuration, options => options.SetStrategy(new MyAssemblyResolvingStrategy()));
 ```
 
 ## Contribute
