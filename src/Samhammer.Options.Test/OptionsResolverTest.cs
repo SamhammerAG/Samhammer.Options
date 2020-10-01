@@ -69,6 +69,17 @@ namespace Samhammer.Options.Test
         }
 
         [Fact]
+        public void OptionsFromConfiguration_MissingSection()
+        {
+            services.ResolveOptions(Configuration);
+
+            var result = ServiceProvider.GetService<IOptions<TestOptions>>();
+            var expected = new TestOptions();
+
+            result.Value.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
         public void OptionsFromConfigurationAndCode()
         {
             configurationValues.Add(new KeyValuePair<string, string>("testSection:Password", "test"));
