@@ -60,8 +60,7 @@ namespace Samhammer.Options.Test
         {
             configurationValues.Add(new KeyValuePair<string, string>("testSection:Password", "test"));
             
-            services.AddSingleton(Configuration);
-            services.ResolveOptions();
+            services.ResolveOptions(Configuration);
 
             var result = ServiceProvider.GetService<IOptions<TestOptions>>();
             var expected = new TestOptions { Password = "test" };
@@ -74,8 +73,7 @@ namespace Samhammer.Options.Test
         {
             configurationValues.Add(new KeyValuePair<string, string>("testSection:Password", "test"));
 
-            services.AddSingleton(Configuration);
-            services.ResolveOptions();
+            services.ResolveOptions(Configuration);
             services.PostConfigure<TestOptions>(o => o.Password = o.Password + "123");
 
             var result = ServiceProvider.GetService<IOptions<TestOptions>>();
@@ -93,8 +91,7 @@ namespace Samhammer.Options.Test
             configurationValues.Add(new KeyValuePair<string, string>("testSectionThree:Password", "testThree"));
             configurationValues.Add(new KeyValuePair<string, string>("testSectionFour:Password", "testFour"));
 
-            services.AddSingleton(Configuration);
-            services.ResolveOptions();
+            services.ResolveOptions(Configuration);
 
             // Act
             var result = ServiceProvider.GetService<IOptionsSnapshot<TestOptionsNamed>>();
@@ -113,8 +110,7 @@ namespace Samhammer.Options.Test
         {
             configurationValues.Add(new KeyValuePair<string, string>("MyRootSetting1", "testFromRoot"));
 
-            services.AddSingleton(Configuration);
-            services.ResolveOptions();
+            services.ResolveOptions(Configuration);
 
             var result = ServiceProvider.GetService<IOptions<TestRootOptions>>();
             var expected = new TestRootOptions { MyRootSetting1 = "testFromRoot" };

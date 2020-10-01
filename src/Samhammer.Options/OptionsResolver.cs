@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Samhammer.Options.Abstractions;
+using Samhammer.Options.Strategy;
 using Samhammer.Options.Utils;
 
 namespace Samhammer.Options
@@ -13,14 +14,17 @@ namespace Samhammer.Options
     {
         private IConfiguration Configuration { get; }
 
+        private IAssemblyResolvingStrategy Strategy { get; }
+
         private ILogger<OptionsResolver> Logger { get; }
 
         private MethodInfo AddOptionMethod { get; }
 
-        public OptionsResolver(IConfiguration configuration, ILogger<OptionsResolver> logger)
+        public OptionsResolver(IConfiguration configuration, IAssemblyResolvingStrategy strategy, ILogger<OptionsResolver> logger)
         {
             Configuration = configuration;
             Logger = logger;
+            Strategy = strategy;
             AddOptionMethod = GetAddOptionMethod();
         }
 
@@ -28,7 +32,7 @@ namespace Samhammer.Options
         {
             Logger.LogInformation("Start option initialization");
 
-            var assemblies = AssemblyUtils.LoadAllAssembliesOfProject();
+            var assemblies = Strategy.ResolveAssemblies().ToList();
             Logger.LogTrace("Loaded assemblies: {Assemblies}.", assemblies.Select(a => a.GetName().Name));
 
             var types = ReflectionUtils.FindAllExportedTypesWithAttribute(assemblies, typeof(OptionAttribute));
