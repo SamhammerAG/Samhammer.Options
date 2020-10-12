@@ -13,11 +13,11 @@ services.ResolveOptions(Configuration);
 ```
 
 ### How to register options ##
-- add [Options] attribute to your Options class
+- add [Option] attribute to your Options class
 - by default options are loaded from appsettings section with same name as the class
 
 ```csharp
-[Options]
+[Option]
 public class ExampleOptions{
     public string MyKey { get; set; }
 }
@@ -34,7 +34,7 @@ appsettings.json
 It might be that the section name is not the same as your class name.
 
 ```csharp
-[Options("Test")]
+[Option("Test")]
 public class ExampleOptions{
     public string ApiKey { get; set; }
     public string ApiUrl { get; set; }
@@ -53,7 +53,7 @@ appsettings.json
 Some options may be defined in the root of appsettings and not inside a section.
 
 ```csharp
-[Options(true)]
+[Option(true)]
 public class RootOptions {
     public string RootUrl { get; set; }
 }
