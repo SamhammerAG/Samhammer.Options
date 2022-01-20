@@ -1,5 +1,3 @@
-﻿[![Build Status](https://travis-ci.com/SamhammerAG/Samhammer.Options.svg?branch=master)](https://travis-ci.com/SamhammerAG/Samhammer.Options)
- 
 # Samhammer.Options
 
 ## Usage
