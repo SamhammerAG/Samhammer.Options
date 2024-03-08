@@ -33,10 +33,10 @@ namespace Samhammer.Options
             Logger.LogInformation("Start option initialization");
 
             var assemblies = Strategy.ResolveAssemblies().ToList();
-            Logger.LogTrace("Loaded assemblies: {Assemblies}.", assemblies.Select(a => a.GetName().Name));
+            Logger.LogTrace("Loaded assemblies: {Assemblies}", assemblies.Select(a => a.GetName().Name));
 
             var types = ReflectionUtils.FindAllExportedTypesWithAttribute(assemblies, typeof(OptionAttribute));
-            Logger.LogTrace("Loaded types with attribute {Attribute}: {Types}.", typeof(OptionAttribute), types);
+            Logger.LogTrace("Loaded types with attribute {Attribute}: {Types}", typeof(OptionAttribute), types);
 
             foreach (var type in types)
             {
