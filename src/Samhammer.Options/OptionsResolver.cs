@@ -51,23 +51,10 @@ namespace Samhammer.Options
 
         private void ResolveConfiguration(IServiceCollection services, Type optionType, OptionAttribute optionAttribute)
         {
-            var sectionName = GetSectionName(optionType, optionAttribute);
-            var section = optionAttribute.FromRootSection ? Configuration : Configuration.GetSection(sectionName);
+            var section = ConfigurationResolver.GetSection(Configuration, optionType, optionAttribute);
 
             var genericMethod = AddOptionMethod.MakeGenericMethod(optionType);
             genericMethod.Invoke(this, new object[] { services, section, optionAttribute.IocName });
-        }
-
-        private string GetSectionName(Type optionType, OptionAttribute attribute)
-        {
-            var key = attribute.SectionName;
-
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                key = optionType.Name;
-            }
-
-            return key;
         }
 
         private void AddOption<T>(IServiceCollection services, IConfiguration section, string iocOptionName = null) where T : class

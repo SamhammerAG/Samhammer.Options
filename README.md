@@ -1,4 +1,4 @@
-# Samhammer.Options
+﻿# Samhammer.Options
 
 ## Usage
 
@@ -90,6 +90,29 @@ appsettings.json
 "api2": {
   "ApiKey": "6789",
   "ApiUrl": "http://api2.my.de"
+}
+```
+
+### How to get options from IConfiguration ##
+It is possible to bind options directly from IConfiguration. \
+This can be helpful in Program.cs to use typed Options there, even before they are registered in IOC.
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+var key = builder.Configuration.GetOptions<ExampleOptions>().MyKey;
+```
+
+```csharp
+[Option]
+public class ExampleOptions{
+    public string MyKey { get; set; }
+}
+```
+
+appsettings.json
+```json
+"ExampleOptions": {
+  "MyKey": "1234"
 }
 ```
 
